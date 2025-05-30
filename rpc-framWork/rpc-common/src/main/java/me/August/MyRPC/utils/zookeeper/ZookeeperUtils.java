@@ -6,6 +6,7 @@ import me.August.MyRPC.exceptons.ZookeeperException;
 import org.apache.zookeeper.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class ZookeeperUtils {
         return createZookeeper(connectString, timeout);
     }
 
-    private static ZooKeeper createZookeeper(String connectString, int timeout) {
+    public static ZooKeeper createZookeeper(String connectString, int timeout) {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
         try {
@@ -79,12 +80,13 @@ public class ZookeeperUtils {
     }
 
 
-
-
-
-
-
-
-
+    public static List<String> getChildren(ZooKeeper zooKeeper, String serviceNode, Watcher watcher) {
+        try {
+            return zooKeeper.getChildren(serviceNode, watcher);
+        } catch (KeeperException | InterruptedException e) {
+            log.error("获取节点【{}】的子元素时发生异常.", serviceNode, e);
+            throw new ZookeeperException(e);
+        }
+    }
 
 }

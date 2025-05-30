@@ -5,29 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f110ce66-dd0f-4808-9b71-42ad3b6b2397" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/demo/rpc-consumer-demo/src/main/resources/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/rpc-provider-demo/src/main/resources/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/constants/Constant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/exceptons/NetworkException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/exceptons/ZookeeperException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/utils/NetUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/utils/zookeeper/ZookeeperNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/utils/zookeeper/ZookeeperUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-manager/src/main/java/me/August/MyRPC/Application.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-manager/src/main/resources/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/exceptons/DiscoveryException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/discovery/AbstractRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/discovery/Registry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/discovery/impl/ZookeeperRegistry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/rpc-consumer-demo/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/demo/rpc-consumer-demo/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/rpc-consumer-demo/src/main/java/me/August/MyRPC/ConsumerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/rpc-consumer-demo/src/main/java/me/August/MyRPC/ConsumerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/rpc-provider-demo/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/demo/rpc-provider-demo/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RegistryConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RegistryConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/rpc-provider-demo/src/main/java/me/August/MyRPC/ProviderApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/rpc-provider-demo/src/main/java/me/August/MyRPC/ProviderApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/utils/zookeeper/ZookeeperUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/utils/zookeeper/ZookeeperUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/ReferenceConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/ReferenceConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RegistryConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/discovery/RegistryConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RpcBootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RpcBootstrap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/config/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/config/Configuration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-manager/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-manager/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-manager/src/main/java/me/August/MyRPC/Main.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +81,7 @@
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "17",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/code/MyRPC/rpc-manager/src/main/resources",
+    "last_opened_file_path": "D:/code/MyRPC/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -107,6 +96,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\code\MyRPC\rpc-framWork\rpc-core\src\main\java\me\August\MyRPC" />
       <recent name="D:\code\MyRPC\rpc-manager\src\main\resources" />
       <recent name="D:\code\MyRPC\rpc-framWork\rpc-common\src\main\resources" />
       <recent name="D:\code\MyRPC\demo\rpc-provider-demo\src\main\resources" />
@@ -114,17 +104,19 @@
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="me.August.MyRPC.exceptons" />
-      <recent name="me.August.MyRPC.utils" />
-      <recent name="me.August.MyRPC" />
+      <recent name="me.August.MyRPC.config" />
+      <recent name="me.August.MyRPC.discovery" />
+      <recent name="me.August.MyRPC.discovery.impl" />
+      <recent name="me.August.MyRPC.impl.discovery" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ProviderApplication">
+  <component name="RunManager" selected="Application.ConsumerApplication">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.August.MyRPC.Application" />
       <module name="rpc-manager" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="me.August.MyRPC.*" />
+          <option name="PATTERN" value="me.August.MyRPC.discovery.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -137,7 +129,7 @@
       <module name="rpc-consumer-demo" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="me.August.MyRPC.*" />
+          <option name="PATTERN" value="me.August.MyRPC.discovery.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -163,7 +155,7 @@
       <module name="rpc-provider-demo" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="me.August.MyRPC.*" />
+          <option name="PATTERN" value="me.August.MyRPC.discovery.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -175,7 +167,7 @@
       <module name="demo" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="me.August.MyRPC.*" />
+          <option name="PATTERN" value="me.August.MyRPC.discovery.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -189,10 +181,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ConsumerApplication" />
         <item itemvalue="Application.ProviderApplication" />
         <item itemvalue="Application.Application" />
         <item itemvalue="Application.NetUtils" />
-        <item itemvalue="Application.ConsumerApplication" />
         <item itemvalue="JUnit.ZookeeperTest.testWatcher" />
       </list>
     </recent_temporary>
@@ -219,7 +211,7 @@
       <workItem from="1748504538565" duration="137000" />
       <workItem from="1748504683374" duration="54000" />
       <workItem from="1748504749632" duration="417000" />
-      <workItem from="1748505176579" duration="32255000" />
+      <workItem from="1748505176579" duration="43408000" />
     </task>
     <servers />
   </component>

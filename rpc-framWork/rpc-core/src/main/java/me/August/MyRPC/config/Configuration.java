@@ -1,7 +1,7 @@
 package me.August.MyRPC.config;
 
 import lombok.Data;
-import me.August.MyRPC.RegistryConfig;
+import me.August.MyRPC.discovery.RegistryConfig;
 @Data
 public class Configuration {
 
@@ -14,6 +14,7 @@ public class Configuration {
     private RegistryConfig registryConfig = new RegistryConfig("zookeeper://127.0.0.1:2181");
     //序列化协议
     private String serializeType = "jdk";
-
+    // 分组信息
+    private String group = "default";
 
 }

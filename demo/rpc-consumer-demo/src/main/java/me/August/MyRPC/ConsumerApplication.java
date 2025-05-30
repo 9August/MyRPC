@@ -1,6 +1,7 @@
 package me.August.MyRPC;
 
 import lombok.extern.slf4j.Slf4j;
+import me.August.MyRPC.discovery.RegistryConfig;
 
 
 @Slf4j
@@ -26,7 +27,7 @@ public class ConsumerApplication {
             .reference(reference);
     
         System.out.println("++------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        HelloRpc helloYrpc = reference.get();
+        HelloRpc hellorpc = reference.get();
      
 //        while (true) {
 //            try {
@@ -36,7 +37,7 @@ public class ConsumerApplication {
 //                throw new RuntimeException(e);
 //            }
             for (int i = 0; i < 50; i++) {
-                String sayHi = helloYrpc.sayHi("你好rpc");
+                String sayHi = hellorpc.sayHi("你好rpc");
                 log.info("sayHi-->{}", sayHi);
             }
 //        }

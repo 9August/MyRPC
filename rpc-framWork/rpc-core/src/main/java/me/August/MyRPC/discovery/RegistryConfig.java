@@ -1,7 +1,8 @@
-package me.August.MyRPC;
+package me.August.MyRPC.discovery;
 
 import me.August.MyRPC.constants.Constant;
-import org.apache.zookeeper.ZooKeeper;
+import me.August.MyRPC.discovery.impl.ZookeeperRegistry;
+import me.August.MyRPC.exceptons.DiscoveryException;
 
 public class RegistryConfig {
     private final String connectString;
@@ -10,16 +11,19 @@ public class RegistryConfig {
         this.connectString = connectString;
     }
 
-    public ZooKeeper getRegistry() {
+    // 获取注册中心实例
+    public Registry getRegistry() {
         // 1、获取注册中心的类型
         String registryType = getRegistryType(connectString,true).toLowerCase().trim();
-
         // 2、通过类型获取具体注册中心
         if( registryType.equals("zookeeper") ){
             String host = getRegistryType(connectString, false);
-//            return new ZookeeperRegistry(host, Constant.TIME_OUT);
+            return new ZookeeperRegistry(host, Constant.TIME_OUT);
+        } else if (registryType.equals("nacos")){
+            String host = getRegistryType(connectString, false);
+//            return new NacosRegistry(host, Constant.TIME_OUT);
         }
-        return null;
+        throw new DiscoveryException("未发现合适的注册中心。");
     }
 
     private String getRegistryType(String connectString,boolean ifType){

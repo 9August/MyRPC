@@ -1,5 +1,6 @@
 package me.August.MyRPC;
 
+import me.August.MyRPC.discovery.RegistryConfig;
 import me.August.MyRPC.impl.HelloRpcImpl;
 
 public class ProviderApplication {
@@ -26,5 +27,13 @@ public class ProviderApplication {
 //                .scan("com.ydlclass")
                 // 启动服务
                 .start();
+
+        while (true){
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
