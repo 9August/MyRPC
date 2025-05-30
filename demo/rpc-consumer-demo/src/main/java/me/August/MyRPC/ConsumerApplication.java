@@ -28,7 +28,7 @@ public class ConsumerApplication {
         System.out.println("++------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         HelloRpc helloYrpc = reference.get();
      
-        while (true) {
+//        while (true) {
 //            try {
 //                Thread.sleep(10000);
 //                System.out.println("++------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -36,10 +36,10 @@ public class ConsumerApplication {
 //                throw new RuntimeException(e);
 //            }
             for (int i = 0; i < 50; i++) {
-                String sayHi = helloYrpc.sayHi("你好yrpc");
+                String sayHi = helloYrpc.sayHi("你好rpc");
                 log.info("sayHi-->{}", sayHi);
             }
-        }
+//        }
         
     }
 }
