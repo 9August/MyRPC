@@ -1,11 +1,21 @@
 package me.August.MyRPC;
 
 
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.config.Configuration;
 import me.August.MyRPC.discovery.RegistryConfig;
 
+import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -14,11 +24,17 @@ public class RpcBootstrap {
     // 全局的配置中心
     private final Configuration configuration;
 
+    // 连接的缓存,如果使用InetSocketAddress这样的类做key，一定要看他有没有重写equals方法和toString方法
+    public final static Map<InetSocketAddress, Channel> CHANNEL_CACHE = new ConcurrentHashMap<>(16);
+    // 维护已经发布且暴露服务列表
     public final static Map<String, ServiceConfig<?>> SERVERS_LIST = new ConcurrentHashMap<>(16);
+
+    // 定义全局的对外挂起的 completableFuture
+    public final static Map<Long, CompletableFuture<Object>> PENDING_REQUEST = new ConcurrentHashMap<>(128);
 
 
     private RpcBootstrap() {
-        configuration = new Configuration() ;
+        configuration = new Configuration();
     }
 
     // 单例模式
@@ -71,6 +87,48 @@ public class RpcBootstrap {
     public void start() {
 
 
+        //Netty的Reactor线程池，初始化了一个NioEventLoop数组，用来处理I/O操作,如接受新的连接和读写数据
+        EventLoopGroup boss = new NioEventLoopGroup();
+        EventLoopGroup worker = new NioEventLoopGroup();
+        try {
+            ServerBootstrap b = new ServerBootstrap();//用于启动NIO服务
+            b.group(boss, worker)
+                    .channel(NioServerSocketChannel.class) //实例化一个channel用于建立连接
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        //ChannelInitializer配置一个新的Channel,用于把自定义的处理类增加到pipline上来
+                        @Override
+                        public void initChannel(SocketChannel ch) throws Exception {
+                            //配置childHandler来通知一个关于消息处理的InfoServerHandler实例
+                            // 核心，添加入栈和出栈的处理
+                            ch.pipeline().addLast(new SimpleChannelInboundHandler<>() {
+                                @Override
+                                protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
+                                    ByteBuf byteBuf = (ByteBuf) msg;
+                                    log.info("byteBuf--{}", byteBuf.toString(Charset.defaultCharset()));
+                                    // 回复客户端
+                                    channelHandlerContext.channel().writeAndFlush(Unpooled.copiedBuffer("rpc服务端收到，并说hello".getBytes()));
+                                }
+                            });
+                        }
+                    });
+            //绑定服务器，该实例将提供有关IO操作的结果或状态的信息
+            ChannelFuture channelFuture = b.bind(configuration.getPort()).sync();
+            System.out.println("在" + channelFuture.channel().localAddress() + "上开启监听");
+
+            //阻塞操作，closeFuture()开启了一个channel的监听器（这期间channel在进行各项工作），直到链路断开
+            // closeFuture().sync()会阻塞当前线程，直到通道关闭操作完成。这可以用于确保在关闭通道之前，程序不会提前退出。
+            channelFuture.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {  //关闭EventLoopGroup并释放所有资源，包括所有创建的线程
+            try {
+                boss.shutdownGracefully().sync();
+                worker.shutdownGracefully().sync();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     // 注册服务到服务中心
@@ -79,14 +137,6 @@ public class RpcBootstrap {
         SERVERS_LIST.put(service.getInterface().getName(), service);
         return this;
     }
-
-
-
-
-
-
-
-
 
 
     public Configuration getConfiguration() {

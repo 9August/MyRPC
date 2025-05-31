@@ -28,12 +28,5 @@ public class ProviderApplication {
                 // 启动服务
                 .start();
 
-        while (true){
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 }

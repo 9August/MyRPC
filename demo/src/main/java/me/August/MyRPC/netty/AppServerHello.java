@@ -45,7 +45,6 @@ public class AppServerHello {
         } finally {  //关闭EventLoopGroup并释放所有资源，包括所有创建的线程
             boss.shutdownGracefully().sync();
             worker.shutdownGracefully().sync();
-
         }
     }
 
