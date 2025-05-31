@@ -7,8 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.NettyBootstrapInitializer;
 import me.August.MyRPC.RpcBootstrap;
 import me.August.MyRPC.discovery.Registry;
+import me.August.MyRPC.enumeration.RequestType;
 import me.August.MyRPC.exceptons.DiscoveryException;
 import me.August.MyRPC.exceptons.NetworkException;
+import me.August.MyRPC.transport.message.RequestPayload;
+import me.August.MyRPC.transport.message.RpcRequest;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -45,11 +48,32 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
 
         // 2. 获取channel
         Channel channel = getAvailableChannel(address);
-
+        if (log.isDebugEnabled()) {
+            log.debug("已经和【{}】建立了连接，准备发送数据", address);
+        }
         // 3. 发送请求
+        // 3.1. 请求封装
+        RequestPayload requestPayload = RequestPayload.builder()
+                .interfaceName(interfaceRef.getName())
+                .methodName(method.getName())
+                .parametersType(method.getParameterTypes())
+                .parametersValue(args)
+                .returnType(method.getReturnType())
+                .build();
+
+        RpcRequest rpcRequest = RpcRequest.builder()
+                .requestId(1L)
+                .compressType((byte) 1)
+                .requestType(RequestType.REQUEST.getId())
+                .serializeType((byte) 1)
+                .timeStamp(System.currentTimeMillis())
+                .requestPayload(requestPayload)
+                .build();
+        // 异步全局露出
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
         RpcBootstrap.PENDING_REQUEST.put(1L, completableFuture);
-        channel.writeAndFlush(Unpooled.copiedBuffer("客户端说hello".getBytes()))
+        // 3.2 请求发送
+        channel.writeAndFlush(rpcRequest)
                 .addListener(
                         (ChannelFutureListener) promise -> {
                             if (!promise.isSuccess()) {
@@ -71,9 +95,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
             NettyBootstrapInitializer.getBootstrap().connect(address).addListener(
                     (ChannelFutureListener) promise -> {
                         if (promise.isDone()) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("已经和【{}】建立了连接。", address);
-                            }
+
                             channelFuture.complete(promise.channel());
                         } else if (!promise.isSuccess()) {
                             channelFuture.completeExceptionally(promise.cause());

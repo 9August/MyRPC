@@ -8,7 +8,10 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
+import me.August.MyRPC.channelHandler.handler.MethodCallHandler;
+import me.August.MyRPC.channelHandler.handler.RpcRequestDecoder;
 import me.August.MyRPC.config.Configuration;
 import me.August.MyRPC.discovery.RegistryConfig;
 
@@ -86,7 +89,6 @@ public class RpcBootstrap {
     // 启动netty服务
     public void start() {
 
-
         //Netty的Reactor线程池，初始化了一个NioEventLoop数组，用来处理I/O操作,如接受新的连接和读写数据
         EventLoopGroup boss = new NioEventLoopGroup();
         EventLoopGroup worker = new NioEventLoopGroup();
@@ -100,15 +102,14 @@ public class RpcBootstrap {
                         public void initChannel(SocketChannel ch) throws Exception {
                             //配置childHandler来通知一个关于消息处理的InfoServerHandler实例
                             // 核心，添加入栈和出栈的处理
-                            ch.pipeline().addLast(new SimpleChannelInboundHandler<>() {
-                                @Override
-                                protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
-                                    ByteBuf byteBuf = (ByteBuf) msg;
-                                    log.info("byteBuf--{}", byteBuf.toString(Charset.defaultCharset()));
-                                    // 回复客户端
-                                    channelHandlerContext.channel().writeAndFlush(Unpooled.copiedBuffer("rpc服务端收到，并说hello".getBytes()));
-                                }
-                            });
+                            ch.pipeline()
+                                    // 日志
+                                    .addLast(new LoggingHandler())
+                                    // 报文解码
+                                    .addLast(new RpcRequestDecoder())
+                                    // 调用服务，返回结果
+                                    .addLast(new MethodCallHandler())
+                            ;
                         }
                     });
             //绑定服务器，该实例将提供有关IO操作的结果或状态的信息

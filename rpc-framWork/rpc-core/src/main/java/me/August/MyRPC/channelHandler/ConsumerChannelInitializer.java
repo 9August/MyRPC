@@ -2,6 +2,9 @@ package me.August.MyRPC.channelHandler;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+import me.August.MyRPC.channelHandler.handler.RpcRequestEncoder;
 import me.August.MyRPC.channelHandler.handler.TestSimpleChannelInboundHandler;
 
 /**
@@ -12,6 +15,13 @@ import me.August.MyRPC.channelHandler.handler.TestSimpleChannelInboundHandler;
 public class ConsumerChannelInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
-        socketChannel.pipeline().addLast(new TestSimpleChannelInboundHandler());
+        socketChannel.pipeline()
+                // netty自带的日志处理器
+                .addLast(new LoggingHandler(LogLevel.DEBUG))
+                // 消息编码器
+                .addLast(new RpcRequestEncoder())
+                // 入栈的解码器
+//                .addLast(new YrpcResponseDecoder())
+                .addLast(new TestSimpleChannelInboundHandler());
     }
 }

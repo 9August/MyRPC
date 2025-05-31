@@ -18,8 +18,9 @@ public class ServiceConfig<T>{
         this.interfaceProvider = interfaceProvider;
     }
 
-    public void setRef(Object ref) {
-        this.ref = ref;
-
+    public void setRef(Object ref) {this.ref = ref;}
+    public Object getRef() {
+        return ref;
     }
+
 }
