@@ -5,21 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f110ce66-dd0f-4808-9b71-42ad3b6b2397" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/exceptons/ResponseException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/utils/DateUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/utils/IdGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseDecoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseEncoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/enumeration/RespCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/transport/message/RpcResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/exceptons/SerializeException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/utils/SerializeUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/config/ObjectWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/serialize/Serializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/serialize/impl/HessianSerializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/serialize/impl/JdkSerializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/serialize/impl/JsonSerializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RpcBootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RpcBootstrap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/ConsumerChannelInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/ConsumerChannelInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/MethodCallHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/MethodCallHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/rpc-provider-demo/src/main/java/me/August/MyRPC/ProviderApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/rpc-provider-demo/src/main/java/me/August/MyRPC/ProviderApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcRequestDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcRequestDecoder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcRequestEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcRequestEncoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/TestSimpleChannelInboundHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/SimpleChannelInboundHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/config/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/config/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseEncoder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/proxy/handler/RpcConsumerInvocationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/proxy/handler/RpcConsumerInvocationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/serialize/SerializerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/serialize/SerializerFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +31,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -72,6 +74,7 @@
     "Application.Application.executor": "Run",
     "Application.ConsumerApplication.executor": "Run",
     "Application.IdGenerator.executor": "Run",
+    "Application.JsonSerializer.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.NetUtils.executor": "Run",
     "Application.ProviderApplication.executor": "Run",
@@ -115,7 +118,7 @@
       <recent name="me.August.MyRPC.discovery" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ConsumerApplication">
+  <component name="RunManager" selected="Application.JsonSerializer">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.August.MyRPC.Application" />
       <module name="rpc-manager" />
@@ -155,12 +158,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NetUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="me.August.MyRPC.utils.NetUtils" />
-      <module name="rpc-common" />
+    <configuration name="JsonSerializer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="me.August.MyRPC.serialize.impl.JsonSerializer" />
+      <module name="rpc-core" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="me.August.MyRPC.utils.*" />
+          <option name="PATTERN" value="me.August.MyRPC.serialize.impl.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -183,11 +186,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.JsonSerializer" />
         <item itemvalue="Application.ConsumerApplication" />
         <item itemvalue="Application.ProviderApplication" />
         <item itemvalue="Application.IdGenerator" />
         <item itemvalue="Application.Application" />
-        <item itemvalue="Application.NetUtils" />
       </list>
     </recent_temporary>
   </component>
@@ -213,7 +216,7 @@
       <workItem from="1748504538565" duration="137000" />
       <workItem from="1748504683374" duration="54000" />
       <workItem from="1748504749632" duration="417000" />
-      <workItem from="1748505176579" duration="84778000" />
+      <workItem from="1748505176579" duration="91868000" />
     </task>
     <servers />
   </component>
@@ -245,16 +248,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseDecoder.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

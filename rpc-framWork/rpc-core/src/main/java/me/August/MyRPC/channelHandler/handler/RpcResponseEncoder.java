@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
+import me.August.MyRPC.serialize.Serializer;
+import me.August.MyRPC.serialize.SerializerFactory;
 import me.August.MyRPC.transport.message.MessageFormatConstant;
 import me.August.MyRPC.transport.message.RpcResponse;
 
@@ -39,7 +41,12 @@ public class RpcResponseEncoder extends MessageToByteEncoder<RpcResponse> {
         // 8字节的时间戳
         byteBuf.writeLong(rpcResponse.getTimeStamp());
 
-        byte[] body = getBodys(rpcResponse.getBody());
+
+        // 序列化
+        byte[] body ;
+        Serializer serializer = SerializerFactory.getSerializer(rpcResponse.getSerializeType()).getImpl();
+        body = serializer.serialize(rpcResponse.getBody());
+
         // 写入请求体（requestPayload）
         if (body != null) {
             byteBuf.writeBytes(body);
@@ -56,24 +63,11 @@ public class RpcResponseEncoder extends MessageToByteEncoder<RpcResponse> {
         byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH + bodyLength);
         // 将写指针归位
         byteBuf.writerIndex(writerIndex);
-        if(log.isDebugEnabled()){
-            log.debug("响应【{}】已经在服务端完成编码工作。",rpcResponse.getRequestId());
+        if (log.isDebugEnabled()) {
+            log.debug("响应【{}】已经在服务端完成编码工作。", rpcResponse.getRequestId());
         }
 
     }
 
-    private byte[] getBodys(Object requestPayload) {
-        if(requestPayload==null){
-            return null;
-        }
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream outputStream = new ObjectOutputStream(byteArrayOutputStream);
-            outputStream.writeObject(requestPayload);
-            return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
 
 }

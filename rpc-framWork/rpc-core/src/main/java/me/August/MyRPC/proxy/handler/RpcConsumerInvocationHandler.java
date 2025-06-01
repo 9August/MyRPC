@@ -10,6 +10,7 @@ import me.August.MyRPC.discovery.Registry;
 import me.August.MyRPC.enumeration.RequestType;
 import me.August.MyRPC.exceptons.DiscoveryException;
 import me.August.MyRPC.exceptons.NetworkException;
+import me.August.MyRPC.serialize.SerializerFactory;
 import me.August.MyRPC.transport.message.RequestPayload;
 import me.August.MyRPC.transport.message.RpcRequest;
 import me.August.MyRPC.utils.IdGenerator;
@@ -66,7 +67,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .requestId(RpcBootstrap.getInstance().getConfiguration().getIdGenerator().getId())
                 .compressType((byte) 1)
                 .requestType(RequestType.REQUEST.getId())
-                .serializeType((byte) 1)
+                .serializeType(SerializerFactory.getSerializer(RpcBootstrap.getInstance().getConfiguration().getSerializeType()).getCode())
                 .timeStamp(System.currentTimeMillis())
                 .requestPayload(requestPayload)
                 .build();

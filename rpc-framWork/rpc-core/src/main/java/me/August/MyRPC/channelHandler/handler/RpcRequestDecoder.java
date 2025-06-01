@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import lombok.extern.slf4j.Slf4j;
+import me.August.MyRPC.serialize.Serializer;
+import me.August.MyRPC.serialize.SerializerFactory;
 import me.August.MyRPC.transport.message.MessageFormatConstant;
 import me.August.MyRPC.transport.message.RequestPayload;
 import me.August.MyRPC.transport.message.RpcRequest;
@@ -96,16 +98,12 @@ public class RpcRequestDecoder extends LengthFieldBasedFrameDecoder {
         byteBuf.readBytes(payload);
 
 
-        RequestPayload requestPayload;
         // 反序列化
-        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(payload);
-             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
-            requestPayload = (RequestPayload) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            log.error("请求【{}】反序列化时发生了异常",requestId);
-            throw new RuntimeException();
-        }
+        Serializer serializer = SerializerFactory.getSerializer(serializeType).getImpl();
+        RequestPayload requestPayload = serializer.deserialize(payload, RequestPayload.class);
         rpcRequest.setRequestPayload(requestPayload);
+
+
         return rpcRequest;
     }
 

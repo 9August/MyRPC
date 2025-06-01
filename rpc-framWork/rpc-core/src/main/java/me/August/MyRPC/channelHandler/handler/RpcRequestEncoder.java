@@ -5,9 +5,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.enumeration.RequestType;
+import me.August.MyRPC.serialize.Serializer;
+import me.August.MyRPC.serialize.SerializerFactory;
 import me.August.MyRPC.transport.message.MessageFormatConstant;
 import me.August.MyRPC.transport.message.RequestPayload;
 import me.August.MyRPC.transport.message.RpcRequest;
+import me.August.MyRPC.utils.SerializeUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,20 +45,28 @@ public class RpcRequestEncoder extends MessageToByteEncoder<RpcRequest> {
         byteBuf.writeLong(rpcRequest.getTimeStamp());
 
         // 如果是心跳请求，就不处理请求体
-        if(rpcRequest.getRequestType() == RequestType.HEART_BEAT.getId()){
+        if (rpcRequest.getRequestType() == RequestType.HEART_BEAT.getId()) {
             // 处理一下总长度，其实总长度 = header长度
             int writerIndex = byteBuf.writerIndex();
             byteBuf.writerIndex(MessageFormatConstant.MAGIC.length
-                + MessageFormatConstant.VERSION_LENGTH + MessageFormatConstant.HEADER_FIELD_LENGTH
+                    + MessageFormatConstant.VERSION_LENGTH + MessageFormatConstant.HEADER_FIELD_LENGTH
             );
             byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH);
             byteBuf.writerIndex(writerIndex);
             return;
         }
 
-        // 写入请求体（requestPayload）
+        // 写入请求体（requestPayload）(序列化和压缩)
+        // 序列化
+        // 压缩
 
-        byte[] body = getBodys(rpcRequest.getRequestPayload());
+        byte[] body = null;
+        if (rpcRequest.getRequestPayload() != null) {
+            // 1. 序列化
+            Serializer serializer = SerializerFactory.getSerializer(rpcRequest.getSerializeType()).getImpl();
+            body = serializer.serialize(rpcRequest.getRequestPayload());
+            // 2、根据配置的压缩方式进行压缩
+        }
         if (body != null) {
             byteBuf.writeBytes(body);
         }
@@ -77,17 +88,5 @@ public class RpcRequestEncoder extends MessageToByteEncoder<RpcRequest> {
 
     }
 
-    private byte[] getBodys(RequestPayload requestPayload) {
-        if(requestPayload==null){
-            return null;
-        }
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream outputStream = new ObjectOutputStream(byteArrayOutputStream);
-            outputStream.writeObject(requestPayload);
-            return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
+
 }
