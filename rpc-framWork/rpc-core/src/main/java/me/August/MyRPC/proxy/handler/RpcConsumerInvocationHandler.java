@@ -12,6 +12,7 @@ import me.August.MyRPC.exceptons.DiscoveryException;
 import me.August.MyRPC.exceptons.NetworkException;
 import me.August.MyRPC.transport.message.RequestPayload;
 import me.August.MyRPC.transport.message.RpcRequest;
+import me.August.MyRPC.utils.IdGenerator;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -62,7 +63,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .build();
 
         RpcRequest rpcRequest = RpcRequest.builder()
-                .requestId(1L)
+                .requestId(RpcBootstrap.getInstance().getConfiguration().getIdGenerator().getId())
                 .compressType((byte) 1)
                 .requestType(RequestType.REQUEST.getId())
                 .serializeType((byte) 1)
@@ -71,7 +72,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .build();
         // 异步全局露出
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
-        RpcBootstrap.PENDING_REQUEST.put(1L, completableFuture);
+        RpcBootstrap.PENDING_REQUEST.put(rpcRequest.getRequestId(), completableFuture);
         // 3.2 请求发送
         channel.writeAndFlush(rpcRequest)
                 .addListener(
@@ -82,7 +83,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                         }
                 );
         // 4. 获取异步结果
-        return completableFuture.get(3, TimeUnit.SECONDS);
+        return completableFuture.get(5, TimeUnit.SECONDS);
     }
 
     private Channel getAvailableChannel(InetSocketAddress address) {

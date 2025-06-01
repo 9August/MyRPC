@@ -2,8 +2,6 @@ package me.August.MyRPC;
 
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -12,6 +10,7 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.channelHandler.handler.MethodCallHandler;
 import me.August.MyRPC.channelHandler.handler.RpcRequestDecoder;
+import me.August.MyRPC.channelHandler.handler.RpcResponseEncoder;
 import me.August.MyRPC.config.Configuration;
 import me.August.MyRPC.discovery.RegistryConfig;
 
@@ -109,6 +108,8 @@ public class RpcBootstrap {
                                     .addLast(new RpcRequestDecoder())
                                     // 调用服务，返回结果
                                     .addLast(new MethodCallHandler())
+                                    // 封装响应
+                                    .addLast(new RpcResponseEncoder())
                             ;
                         }
                     });

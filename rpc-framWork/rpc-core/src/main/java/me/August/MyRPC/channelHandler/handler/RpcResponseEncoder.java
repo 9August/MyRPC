@@ -4,10 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
-import me.August.MyRPC.enumeration.RequestType;
 import me.August.MyRPC.transport.message.MessageFormatConstant;
-import me.August.MyRPC.transport.message.RequestPayload;
-import me.August.MyRPC.transport.message.RpcRequest;
+import me.August.MyRPC.transport.message.RpcResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,14 +13,13 @@ import java.io.ObjectOutputStream;
 
 /**
  * @Author 9August
- * @Date 2025/5/31 20:52
- * @description: 出站时，第二个经过的处理器，对报文进行封装，如序列化，压缩。
- * 报文封装协议如下所示
+ * @Date 2025/6/1 19:41
+ * @description:
  */
 @Slf4j
-public class RpcRequestEncoder extends MessageToByteEncoder<RpcRequest> {
+public class RpcResponseEncoder extends MessageToByteEncoder<RpcResponse> {
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, RpcRequest rpcRequest, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext channelHandlerContext, RpcResponse rpcResponse, ByteBuf byteBuf) throws Exception {
         // 写入请求头
         // 6个字节的魔数值
         byteBuf.writeBytes(MessageFormatConstant.MAGIC);
@@ -33,29 +30,17 @@ public class RpcRequestEncoder extends MessageToByteEncoder<RpcRequest> {
         // 总长度不清楚，先占位置，后续填值
         byteBuf.writerIndex(byteBuf.writerIndex() + MessageFormatConstant.FULL_FIELD_LENGTH);
         // 3个类型
-        byteBuf.writeByte(rpcRequest.getRequestType());
-        byteBuf.writeByte(rpcRequest.getSerializeType());
-        byteBuf.writeByte(rpcRequest.getCompressType());
+        byteBuf.writeByte(rpcResponse.getCode());
+
+        byteBuf.writeByte(rpcResponse.getSerializeType());
+        byteBuf.writeByte(rpcResponse.getCompressType());
         // 8字节的请求id
-        byteBuf.writeLong(rpcRequest.getRequestId());
+        byteBuf.writeLong(rpcResponse.getRequestId());
         // 8字节的时间戳
-        byteBuf.writeLong(rpcRequest.getTimeStamp());
+        byteBuf.writeLong(rpcResponse.getTimeStamp());
 
-        // 如果是心跳请求，就不处理请求体
-        if(rpcRequest.getRequestType() == RequestType.HEART_BEAT.getId()){
-            // 处理一下总长度，其实总长度 = header长度
-            int writerIndex = byteBuf.writerIndex();
-            byteBuf.writerIndex(MessageFormatConstant.MAGIC.length
-                + MessageFormatConstant.VERSION_LENGTH + MessageFormatConstant.HEADER_FIELD_LENGTH
-            );
-            byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH);
-            byteBuf.writerIndex(writerIndex);
-            return;
-        }
-
+        byte[] body = getBodys(rpcResponse.getBody());
         // 写入请求体（requestPayload）
-
-        byte[] body = getBodys(rpcRequest.getRequestPayload());
         if (body != null) {
             byteBuf.writeBytes(body);
         }
@@ -71,13 +56,13 @@ public class RpcRequestEncoder extends MessageToByteEncoder<RpcRequest> {
         byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH + bodyLength);
         // 将写指针归位
         byteBuf.writerIndex(writerIndex);
-        if (log.isDebugEnabled()) {
-            log.debug("请求【{}】已经完成报文的编码。", rpcRequest.getRequestId());
+        if(log.isDebugEnabled()){
+            log.debug("响应【{}】已经在服务端完成编码工作。",rpcResponse.getRequestId());
         }
 
     }
 
-    private byte[] getBodys(RequestPayload requestPayload) {
+    private byte[] getBodys(Object requestPayload) {
         if(requestPayload==null){
             return null;
         }
@@ -90,4 +75,5 @@ public class RpcRequestEncoder extends MessageToByteEncoder<RpcRequest> {
             throw new RuntimeException();
         }
     }
+
 }

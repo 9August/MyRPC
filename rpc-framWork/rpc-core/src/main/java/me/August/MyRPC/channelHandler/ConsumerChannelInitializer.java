@@ -5,7 +5,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import me.August.MyRPC.channelHandler.handler.RpcRequestEncoder;
-import me.August.MyRPC.channelHandler.handler.TestSimpleChannelInboundHandler;
+import me.August.MyRPC.channelHandler.handler.RpcResponseDecoder;
+import me.August.MyRPC.channelHandler.handler.SimpleChannelInboundHandler;
 
 /**
  * @Author 9August
@@ -18,10 +19,11 @@ public class ConsumerChannelInitializer extends ChannelInitializer<SocketChannel
         socketChannel.pipeline()
                 // netty自带的日志处理器
                 .addLast(new LoggingHandler(LogLevel.DEBUG))
-                // 消息编码器
+                // 出栈消息编码器
                 .addLast(new RpcRequestEncoder())
                 // 入栈的解码器
-//                .addLast(new YrpcResponseDecoder())
-                .addLast(new TestSimpleChannelInboundHandler());
+                .addLast(new RpcResponseDecoder())
+                // 处理结果
+                .addLast(new SimpleChannelInboundHandler());
     }
 }

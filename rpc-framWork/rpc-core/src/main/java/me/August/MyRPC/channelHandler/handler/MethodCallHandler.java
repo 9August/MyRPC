@@ -5,8 +5,10 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.RpcBootstrap;
 import me.August.MyRPC.ServiceConfig;
+import me.August.MyRPC.enumeration.RespCode;
 import me.August.MyRPC.transport.message.RequestPayload;
 import me.August.MyRPC.transport.message.RpcRequest;
+import me.August.MyRPC.transport.message.RpcResponse;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,13 +25,18 @@ public class MethodCallHandler extends SimpleChannelInboundHandler<RpcRequest> {
         // 1. 获取负载内容
         RequestPayload requestPayload = rpcRequest.getRequestPayload();
         // 2. 根据负载进行方法调用
-        Object object = callTargetMethod(requestPayload);
+        Object res = callTargetMethod(requestPayload);
         // 3. 封装响应
+        RpcResponse rpcResponse = new RpcResponse();
+        rpcResponse.setCode(RespCode.SUCCESS.getCode());
+        rpcResponse.setRequestId(rpcRequest.getRequestId());
+        rpcResponse.setCompressType(rpcRequest.getCompressType());
+        rpcResponse.setSerializeType(rpcRequest.getSerializeType());
+        rpcResponse.setTimeStamp(rpcRequest.getTimeStamp());
+        rpcResponse.setBody(res);
 
         // 4. 返回调用结果
-        channelHandlerContext.channel().writeAndFlush(object);
-
-
+        channelHandlerContext.channel().writeAndFlush(rpcResponse);
     }
 
     private Object callTargetMethod(RequestPayload requestPayload) {

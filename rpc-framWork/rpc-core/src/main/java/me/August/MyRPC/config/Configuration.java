@@ -2,6 +2,8 @@ package me.August.MyRPC.config;
 
 import lombok.Data;
 import me.August.MyRPC.discovery.RegistryConfig;
+import me.August.MyRPC.utils.IdGenerator;
+
 @Data
 public class Configuration {
 
@@ -16,5 +18,7 @@ public class Configuration {
     private String serializeType = "jdk";
     // 分组信息
     private String group = "default";
+    // 配置信息-->id发射器
+    public IdGenerator idGenerator = new IdGenerator(1, 2);
 
 }
