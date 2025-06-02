@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
+import me.August.MyRPC.compress.Compressor;
+import me.August.MyRPC.compress.CompressorFactory;
 import me.August.MyRPC.serialize.Serializer;
 import me.August.MyRPC.serialize.SerializerFactory;
 import me.August.MyRPC.transport.message.MessageFormatConstant;
@@ -42,10 +44,16 @@ public class RpcResponseEncoder extends MessageToByteEncoder<RpcResponse> {
         byteBuf.writeLong(rpcResponse.getTimeStamp());
 
 
-        // 序列化
-        byte[] body ;
-        Serializer serializer = SerializerFactory.getSerializer(rpcResponse.getSerializeType()).getImpl();
-        body = serializer.serialize(rpcResponse.getBody());
+        // 1、对响应做序列化
+        byte[] body = null;
+        if (rpcResponse.getBody() != null) {
+            Serializer serializer = SerializerFactory.getSerializer(rpcResponse.getSerializeType()).getImpl();
+            body = serializer.serialize(rpcResponse.getBody());
+
+            // 2、压缩
+            Compressor compressor = CompressorFactory.getCompressor(rpcResponse.getCompressType()).getImpl();
+            body = compressor.compress(body);
+        }
 
         // 写入请求体（requestPayload）
         if (body != null) {

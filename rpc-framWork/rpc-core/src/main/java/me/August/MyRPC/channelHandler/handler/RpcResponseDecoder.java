@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import lombok.extern.slf4j.Slf4j;
+import me.August.MyRPC.compress.Compressor;
+import me.August.MyRPC.compress.CompressorFactory;
 import me.August.MyRPC.serialize.Serializer;
 import me.August.MyRPC.serialize.SerializerFactory;
 import me.August.MyRPC.transport.message.MessageFormatConstant;
@@ -98,10 +100,21 @@ public class RpcResponseDecoder extends LengthFieldBasedFrameDecoder {
         byteBuf.readBytes(payload);
 
         // 反序列化
-        Serializer serializer = SerializerFactory
-                .getSerializer(rpcResponse.getSerializeType()).getImpl();
-        Object body = serializer.deserialize(payload, Object.class);
-        rpcResponse.setBody(body);
+        if (payload.length > 0) {
+            // 有了字节数组之后就可以解压缩，反序列化
+            // 1、解压缩
+            Compressor compressor = CompressorFactory.getCompressor(compressType).getImpl();
+            payload = compressor.decompress(payload);
+
+            // 2、反序列化
+            Serializer serializer = SerializerFactory.getSerializer(rpcResponse.getSerializeType()).getImpl();
+            Object body = serializer.deserialize(payload, Object.class);
+            rpcResponse.setBody(body);
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("响应【{}】已经在调用端完成解码工作。", rpcResponse.getRequestId());
+        }
 
         return rpcResponse;
     }

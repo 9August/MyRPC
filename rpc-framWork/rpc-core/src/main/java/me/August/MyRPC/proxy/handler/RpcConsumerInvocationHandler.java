@@ -6,6 +6,7 @@ import io.netty.channel.ChannelFutureListener;
 import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.NettyBootstrapInitializer;
 import me.August.MyRPC.RpcBootstrap;
+import me.August.MyRPC.compress.CompressorFactory;
 import me.August.MyRPC.discovery.Registry;
 import me.August.MyRPC.enumeration.RequestType;
 import me.August.MyRPC.exceptons.DiscoveryException;
@@ -65,7 +66,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
 
         RpcRequest rpcRequest = RpcRequest.builder()
                 .requestId(RpcBootstrap.getInstance().getConfiguration().getIdGenerator().getId())
-                .compressType((byte) 1)
+                .compressType(CompressorFactory.getCompressor(RpcBootstrap.getInstance().getConfiguration().getCompressType()).getCode())
                 .requestType(RequestType.REQUEST.getId())
                 .serializeType(SerializerFactory.getSerializer(RpcBootstrap.getInstance().getConfiguration().getSerializeType()).getCode())
                 .timeStamp(System.currentTimeMillis())

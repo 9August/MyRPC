@@ -18,7 +18,10 @@ public class Configuration {
     private String serializeType = "jdk";
     // 分组信息
     private String group = "default";
-    // 配置信息-->id发射器
+    // id发射器(雪花生成算法)
     public IdGenerator idGenerator = new IdGenerator(1, 2);
+    // 压缩使用的协议
+    private String compressType = "gzip";
+
 
 }

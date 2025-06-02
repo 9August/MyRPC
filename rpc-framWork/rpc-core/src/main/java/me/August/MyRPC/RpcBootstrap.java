@@ -69,7 +69,11 @@ public class RpcBootstrap {
         return this;
     }
 
-    public RpcBootstrap compress(String gzip) {
+    public RpcBootstrap compress(String compressType) {
+        configuration.setCompressType(compressType);
+        if (log.isDebugEnabled()) {
+            log.debug("我们配置了使用的压缩算法为【{}】.", compressType);
+        }
         return this;
     }
 
