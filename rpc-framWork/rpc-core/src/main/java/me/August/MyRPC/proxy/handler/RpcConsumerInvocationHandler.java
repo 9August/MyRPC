@@ -26,9 +26,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /*
-* 客户端通信逻辑
-* 1. 寻找可用服务（zookeeper） 2. 建立连接（netty） 3.发送请求 4. 异步得到结果
-* */
+ * 客户端通信逻辑
+ * 1. 寻找可用服务（zookeeper） 2. 建立连接（netty） 3.发送请求 4. 异步得到结果
+ * */
 @Slf4j
 public class RpcConsumerInvocationHandler implements InvocationHandler {
 
@@ -37,25 +37,15 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
     private final Class<?> interfaceRef;
     private String group;
 
-    public RpcConsumerInvocationHandler(Registry registry, Class<?> interfaceRef,String group) {
+    public RpcConsumerInvocationHandler(Registry registry, Class<?> interfaceRef, String group) {
         this.registry = registry;
         this.interfaceRef = interfaceRef;
         this.group = group;
     }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        // 1. 寻找可用服务
-        List<InetSocketAddress> addresses = registry.lookup(interfaceRef.getName(), group);
-        InetSocketAddress address = addresses.get(0);
-        log.debug("服务调用方,发现了服务{}的可用主机【{}】", interfaceRef.getName(), address);
 
-        // 2. 获取channel
-        Channel channel = getAvailableChannel(address);
-        if (log.isDebugEnabled()) {
-            log.debug("已经和【{}】建立了连接，准备发送数据", address);
-        }
-        // 3. 发送请求
-        // 3.1. 请求封装
         RequestPayload requestPayload = RequestPayload.builder()
                 .interfaceName(interfaceRef.getName())
                 .methodName(method.getName())
@@ -72,6 +62,26 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .timeStamp(System.currentTimeMillis())
                 .requestPayload(requestPayload)
                 .build();
+
+        RpcBootstrap.REQUEST_THREAD_LOCAL.set(rpcRequest);
+
+
+        // 1. 使用负载均衡器获取可用服务
+        InetSocketAddress address = RpcBootstrap.getInstance()
+                .getConfiguration().getLoadBalancer().selectServiceAddress(interfaceRef.getName(), group);
+        if (log.isDebugEnabled()) {
+            log.debug("服务调用方，发现了服务【{}】的可用主机【{}】.",
+                    interfaceRef.getName(), address);
+        }
+
+        // 2. 获取channel
+        Channel channel = getAvailableChannel(address);
+        if (log.isDebugEnabled()) {
+            log.debug("已经和【{}】建立了连接，准备发送数据", address);
+        }
+
+        // 3. 发送请求
+
         // 异步全局露出
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
         RpcBootstrap.PENDING_REQUEST.put(rpcRequest.getRequestId(), completableFuture);
@@ -84,6 +94,8 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                             }
                         }
                 );
+        // 清理threadLocal
+        RpcBootstrap.REQUEST_THREAD_LOCAL.remove();
         // 4. 获取异步结果
         return completableFuture.get(5, TimeUnit.SECONDS);
     }

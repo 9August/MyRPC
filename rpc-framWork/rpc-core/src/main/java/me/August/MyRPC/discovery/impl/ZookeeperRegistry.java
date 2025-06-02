@@ -53,12 +53,8 @@ public class ZookeeperRegistry extends AbstractRegistry {
         }
     }
 
-    /**
-     * 注册中心的核心目的是什么？拉取合适的服务列表
-     *
-     * @param serviceName 服务名称
-     * @return 服务列表
-     */
+
+    // 拉取合适的服务列表
     @Override
     public List<InetSocketAddress> lookup(String serviceName, String group) {
         // 1、找到服务对应的节点
@@ -75,7 +71,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
             return new InetSocketAddress(ip, port);
         }).toList();
 
-        if (inetSocketAddresses.size() == 0) {
+        if (inetSocketAddresses.isEmpty()) {
             throw new DiscoveryException("未发现任何可用的服务主机.");
         }
 

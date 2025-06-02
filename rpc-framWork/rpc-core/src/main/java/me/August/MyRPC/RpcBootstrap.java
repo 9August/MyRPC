@@ -13,6 +13,7 @@ import me.August.MyRPC.channelHandler.handler.RpcRequestDecoder;
 import me.August.MyRPC.channelHandler.handler.RpcResponseEncoder;
 import me.August.MyRPC.config.Configuration;
 import me.August.MyRPC.discovery.RegistryConfig;
+import me.August.MyRPC.transport.message.RpcRequest;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
@@ -33,7 +34,8 @@ public class RpcBootstrap {
 
     // 定义全局的对外挂起的 completableFuture
     public final static Map<Long, CompletableFuture<Object>> PENDING_REQUEST = new ConcurrentHashMap<>(128);
-
+    // 保存request对象，可以到当前线程中随时获取
+    public static final ThreadLocal<RpcRequest> REQUEST_THREAD_LOCAL = new ThreadLocal<>();
 
     private RpcBootstrap() {
         configuration = new Configuration();

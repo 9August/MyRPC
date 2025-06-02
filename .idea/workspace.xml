@@ -5,19 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f110ce66-dd0f-4808-9b71-42ad3b6b2397" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/exceptons/CompressException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/compress/Compressor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/compress/CompressorFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/compress/impl/GzipCompressor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-common/src/main/java/me/August/MyRPC/exceptons/LoadBalancerException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/loadBalancer/AbstractLoadBalancer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/loadBalancer/LoadBalancer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/loadBalancer/Selector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/loadBalancer/impl/ConsistentHashBalancer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/loadBalancer/impl/RoundRobinLoadBalancer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/rpc-consumer-demo/src/main/java/me/August/MyRPC/ConsumerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/rpc-consumer-demo/src/main/java/me/August/MyRPC/ConsumerApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RpcBootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/RpcBootstrap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcRequestDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcRequestDecoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcRequestEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcRequestEncoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseDecoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/channelHandler/handler/RpcResponseEncoder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/config/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/config/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/discovery/impl/ZookeeperRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/discovery/impl/ZookeeperRegistry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/proxy/handler/RpcConsumerInvocationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/proxy/handler/RpcConsumerInvocationHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/serialize/SerializerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpc-framWork/rpc-core/src/main/java/me/August/MyRPC/serialize/SerializerFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +27,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -107,11 +106,11 @@
       <recent name="D:\code\MyRPC\demo\rpc-consumer-demo\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.August.MyRPC.loadBalancer.impl" />
       <recent name="me.August.MyRPC.channelHandler.handler" />
       <recent name="me.August.MyRPC.channelHandler" />
       <recent name="me.August.MyRPC.exceptons" />
       <recent name="me.August.MyRPC.config" />
-      <recent name="me.August.MyRPC.discovery" />
     </key>
   </component>
   <component name="RunManager" selected="Application.ConsumerApplication">
@@ -167,7 +166,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProviderApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="ProviderApplication" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.August.MyRPC.ProviderApplication" />
       <module name="rpc-provider-demo" />
       <extension name="coverage">
@@ -180,6 +179,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Application" />
+      <item itemvalue="Application.ConsumerApplication" />
+      <item itemvalue="Application.IdGenerator" />
+      <item itemvalue="Application.JsonSerializer" />
+      <item itemvalue="Application.ProviderApplication" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.ConsumerApplication" />
@@ -212,7 +218,7 @@
       <workItem from="1748504538565" duration="137000" />
       <workItem from="1748504683374" duration="54000" />
       <workItem from="1748504749632" duration="417000" />
-      <workItem from="1748505176579" duration="96617000" />
+      <workItem from="1748505176579" duration="107155000" />
     </task>
     <servers />
   </component>

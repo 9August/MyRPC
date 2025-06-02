@@ -36,11 +36,14 @@ public class ConsumerApplication {
 //            } catch (InterruptedException e) {
 //                throw new RuntimeException(e);
 //            }
-        String sayHi = hellorpc.sayHi("你好rpc");
-        log.info("sayHi-->{}", sayHi);
+        for (int i = 0; i < 10; i++) {
+            String sayHi = hellorpc.sayHi("你好rpc");
+            log.info("sayHi-->{}", sayHi);
+        }
+
 
 //        log.info("sayHi-->{}", sayHi);
-//            for (int i = 0; i < 50; i++) {
+//            for (int i = 0; i < 10; i++) {
 //                String sayHi = hellorpc.sayHi("你好rpc");
 //                log.info("sayHi-->{}", sayHi);
 //            }
