@@ -33,6 +33,9 @@ public class Configuration {
     public Configuration() {
         // 1、成员变量的默认配置项
         // 2、spi机制发现相关配置项
+        SpiResolver spiResolver = new SpiResolver();
+        spiResolver.loadFromSpi(this);
+
         // 3、读取xml获得上边的信息
         XmlResolver xmlResolver = new XmlResolver();
         xmlResolver.loadFromXml(this);
