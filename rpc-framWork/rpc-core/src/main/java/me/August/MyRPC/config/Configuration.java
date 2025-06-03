@@ -2,11 +2,13 @@ package me.August.MyRPC.config;
 
 import lombok.Data;
 import me.August.MyRPC.discovery.RegistryConfig;
-import me.August.MyRPC.loadBalancer.impl.ConsistentHashBalancer;
-import me.August.MyRPC.loadBalancer.impl.MinimumResponseTimeLoadBalancer;
 import me.August.MyRPC.loadBalancer.impl.RoundRobinLoadBalancer;
 import me.August.MyRPC.utils.IdGenerator;
 import me.August.MyRPC.loadBalancer.LoadBalancer;
+
+/*
+ * 实现全局配置，优先级设为 代码配置 > xml配置 > spi配置(后续实现) > 默认配置
+ * */
 @Data
 public class Configuration {
 
@@ -28,5 +30,14 @@ public class Configuration {
     // 配置信息-->负载均衡策略
     private LoadBalancer loadBalancer = new RoundRobinLoadBalancer();
 
+    public Configuration() {
+        // 1、成员变量的默认配置项
+        // 2、spi机制发现相关配置项
+        // 3、读取xml获得上边的信息
+        XmlResolver xmlResolver = new XmlResolver();
+        xmlResolver.loadFromXml(this);
+
+        // 4、编程配置项，yrpcBootstrap提供
+    }
 
 }

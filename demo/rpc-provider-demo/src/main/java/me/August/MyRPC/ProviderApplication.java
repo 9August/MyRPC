@@ -8,9 +8,9 @@ public class ProviderApplication {
     public static void main(String[] args) {
         // 服务提供方，注册服务，启动服务
         // 1、封装要发布的服务
-        ServiceConfig<HelloRpc> service = new ServiceConfig<>();
-        service.setInterface(HelloRpc.class);
-        service.setRef(new HelloRpcImpl());
+//        ServiceConfig<HelloRpc> service = new ServiceConfig<>();
+//        service.setInterface(HelloRpc.class);
+//        service.setRef(new HelloRpcImpl());
         // 2、定义注册中心
 
         // 3、通过启动引导程序，启动服务提供方
@@ -22,7 +22,9 @@ public class ProviderApplication {
                 .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
                 .serialize("hessian")
                 // 发布服务
-                .publish(service)
+//                .publish(service)
+                // 扫包批量发布
+                .scan("me.August.MyRPC")
                 // 启动服务
                 .start();
 

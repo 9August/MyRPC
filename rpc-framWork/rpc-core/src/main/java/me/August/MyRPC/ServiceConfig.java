@@ -14,7 +14,7 @@ public class ServiceConfig<T>{
     public ServiceConfig() {
     }
 
-    public void setInterface(Class<T> interfaceProvider) {
+    public void setInterface(Class<?> interfaceProvider) {
         this.interfaceProvider = interfaceProvider;
     }
 

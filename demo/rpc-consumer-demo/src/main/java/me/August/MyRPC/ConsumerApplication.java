@@ -3,7 +3,6 @@ package me.August.MyRPC;
 import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.discovery.RegistryConfig;
 
-
 @Slf4j
 public class ConsumerApplication {
 
@@ -51,6 +50,5 @@ public class ConsumerApplication {
 //                log.info("sayHi-->{}", sayHi);
 //            }
         }
-
     }
 }
