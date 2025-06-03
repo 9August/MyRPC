@@ -5,6 +5,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.RpcBootstrap;
 import me.August.MyRPC.ServiceConfig;
+import me.August.MyRPC.enumeration.RequestType;
 import me.August.MyRPC.enumeration.RespCode;
 import me.August.MyRPC.transport.message.RequestPayload;
 import me.August.MyRPC.transport.message.RpcRequest;
@@ -22,10 +23,20 @@ import java.lang.reflect.Method;
 public class MethodCallHandler extends SimpleChannelInboundHandler<RpcRequest> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, RpcRequest rpcRequest) throws Exception {
+
+
+
         // 1. 获取负载内容
         RequestPayload requestPayload = rpcRequest.getRequestPayload();
+
         // 2. 根据负载进行方法调用
-        Object res = callTargetMethod(requestPayload);
+        Object res = null;
+        // 不是心跳请求
+        if (!(rpcRequest.getRequestType() == RequestType.HEART_BEAT.getId())) {
+            // 需要封装响应并且返回
+            res = callTargetMethod(requestPayload);
+        }
+
         // 3. 封装响应
         RpcResponse rpcResponse = new RpcResponse();
         rpcResponse.setCode(RespCode.SUCCESS.getCode());

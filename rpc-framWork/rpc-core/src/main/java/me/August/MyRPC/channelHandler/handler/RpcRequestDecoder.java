@@ -6,6 +6,7 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import lombok.extern.slf4j.Slf4j;
 import me.August.MyRPC.compress.Compressor;
 import me.August.MyRPC.compress.CompressorFactory;
+import me.August.MyRPC.enumeration.RequestType;
 import me.August.MyRPC.serialize.Serializer;
 import me.August.MyRPC.serialize.SerializerFactory;
 import me.August.MyRPC.transport.message.MessageFormatConstant;
@@ -41,6 +42,8 @@ public class RpcRequestDecoder extends LengthFieldBasedFrameDecoder {
 
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+        // 测试最短响应时间负载均衡器
+        Thread.sleep(new Random().nextInt(50));
 
         Object decode = super.decode(ctx, in);
         if (decode instanceof ByteBuf byteBuf) {
@@ -87,13 +90,18 @@ public class RpcRequestDecoder extends LengthFieldBasedFrameDecoder {
         // 9、时间戳
         long timeStamp = byteBuf.readLong();
 
-        // 我们需要封装
+        //封装
         RpcRequest rpcRequest = new RpcRequest();
         rpcRequest.setRequestType(requestType);
         rpcRequest.setCompressType(compressType);
         rpcRequest.setSerializeType(serializeType);
         rpcRequest.setRequestId(requestId);
         rpcRequest.setTimeStamp(timeStamp);
+
+        // 心跳请求没有负载，此处可以判断并直接返回
+        if( requestType == RequestType.HEART_BEAT.getId()){
+            return rpcRequest;
+        }
 
         int payloadLength = fullLength - headLength;
         byte[] payload = new byte[payloadLength];

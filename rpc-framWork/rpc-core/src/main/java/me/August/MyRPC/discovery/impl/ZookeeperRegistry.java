@@ -9,7 +9,10 @@ import me.August.MyRPC.exceptons.DiscoveryException;
 import me.August.MyRPC.utils.NetUtils;
 import me.August.MyRPC.utils.zookeeper.ZookeeperNode;
 import me.August.MyRPC.utils.zookeeper.ZookeeperUtils;
+import me.August.MyRPC.watch.UpAndDownWatcher;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
 import java.net.InetSocketAddress;
@@ -62,7 +65,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
 //                + "/" + "group";
 
         // 2、从zk中获取他的子节点, 192.168.12.123:2151
-        List<String> children = ZookeeperUtils.getChildren(zooKeeper, serviceNode, null);
+        List<String> children = ZookeeperUtils.getChildren(zooKeeper, serviceNode, new UpAndDownWatcher());
         // 获取了所有的可用的服务列表
         List<InetSocketAddress> inetSocketAddresses = children.stream().map(ipString -> {
             String[] ipAndPort = ipString.split(":");

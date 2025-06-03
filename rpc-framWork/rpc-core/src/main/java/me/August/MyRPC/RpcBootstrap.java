@@ -12,12 +12,14 @@ import me.August.MyRPC.channelHandler.handler.MethodCallHandler;
 import me.August.MyRPC.channelHandler.handler.RpcRequestDecoder;
 import me.August.MyRPC.channelHandler.handler.RpcResponseEncoder;
 import me.August.MyRPC.config.Configuration;
+import me.August.MyRPC.core.HeartbeatDetector;
 import me.August.MyRPC.discovery.RegistryConfig;
 import me.August.MyRPC.transport.message.RpcRequest;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,6 +38,10 @@ public class RpcBootstrap {
     public final static Map<Long, CompletableFuture<Object>> PENDING_REQUEST = new ConcurrentHashMap<>(128);
     // 保存request对象，可以到当前线程中随时获取
     public static final ThreadLocal<RpcRequest> REQUEST_THREAD_LOCAL = new ThreadLocal<>();
+
+    //
+    public final static TreeMap<Long, Channel> ANSWER_TIME_CHANNEL_CACHE = new TreeMap<>();
+
 
     private RpcBootstrap() {
         configuration = new Configuration();
@@ -84,6 +90,9 @@ public class RpcBootstrap {
     }
 
     public RpcBootstrap reference(ReferenceConfig<?> reference) {
+        // 开启对这个服务的心跳检测
+        HeartbeatDetector.detectHeartbeat(reference.getInterface().getName());
+
         // 1、reference需要一个注册中心
         reference.setRegistry(configuration.getRegistryConfig().getRegistry());
         reference.setGroup(this.getConfiguration().getGroup());

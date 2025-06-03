@@ -33,10 +33,10 @@ public class ConsistentHashBalancer extends AbstractLoadBalancer {
         // 虚拟节点的个数
         private int virtualNodes;
 
-        public ConsistentHashSelector(List<InetSocketAddress> serviceList, int virtualNodes) {
+        public ConsistentHashSelector(List<InetSocketAddress> addresses, int virtualNodes) {
             // 将节点转化为虚拟节点，进行挂载
             this.virtualNodes = virtualNodes;
-            for (InetSocketAddress inetSocketAddress : serviceList) {
+            for (InetSocketAddress inetSocketAddress : addresses) {
                 // 把每一个节点加入到hash环中
                 addNodeToCircle(inetSocketAddress);
             }

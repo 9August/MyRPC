@@ -39,7 +39,9 @@ public class ReferenceConfig<T> {
     public void setInterface(Class<T> interfaceRef) {
         this.interfaceRef = interfaceRef;
     }
-
+    public Class<T> getInterface() {
+        return interfaceRef;
+    }
     ZookeeperRegistry zookeeperRegistry;
 
     public T get() {

@@ -3,6 +3,7 @@ package me.August.MyRPC.config;
 import lombok.Data;
 import me.August.MyRPC.discovery.RegistryConfig;
 import me.August.MyRPC.loadBalancer.impl.ConsistentHashBalancer;
+import me.August.MyRPC.loadBalancer.impl.MinimumResponseTimeLoadBalancer;
 import me.August.MyRPC.loadBalancer.impl.RoundRobinLoadBalancer;
 import me.August.MyRPC.utils.IdGenerator;
 import me.August.MyRPC.loadBalancer.LoadBalancer;
@@ -13,7 +14,7 @@ public class Configuration {
     // 应用程序的名字
     private String appName = "default";
     // 端口号
-    private int port = 8096;
+    private int port = 8097;
     // 使用的注册中心
     private RegistryConfig registryConfig = new RegistryConfig("zookeeper://127.0.0.1:2181");
     //序列化协议
@@ -25,7 +26,7 @@ public class Configuration {
     // 压缩使用的协议
     private String compressType = "gzip";
     // 配置信息-->负载均衡策略
-    private LoadBalancer loadBalancer = new ConsistentHashBalancer();
+    private LoadBalancer loadBalancer = new RoundRobinLoadBalancer();
 
 
 }

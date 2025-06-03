@@ -8,7 +8,6 @@ import java.net.InetSocketAddress;
  * @description:
  */
 public interface Selector {
-
     // 根据服务列表执行一种算法获取一个服务节点
     InetSocketAddress getNext();
 }

@@ -22,11 +22,22 @@ public class SimpleChannelInboundHandler extends io.netty.channel.SimpleChannelI
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, RpcResponse rpcResponse) throws Exception {
         // 从全局的挂起的请求中寻找与之匹配的待处理的completableFuture
         CompletableFuture<Object> completableFuture = RpcBootstrap.PENDING_REQUEST.get(rpcResponse.getRequestId());
-        Object returnValue = rpcResponse.getBody();
-        completableFuture.complete(returnValue);
 
-        if (log.isDebugEnabled()) {
-            log.debug("响应【{}】已经在调用端完成相应响应结果处理。", rpcResponse.getRequestId());
+        byte code = rpcResponse.getCode();
+
+        if (code == RespCode.SUCCESS.getCode() ){
+            // 服务提供方，给予的结果
+            Object returnValue = rpcResponse.getBody();
+            completableFuture.complete(returnValue);
+            if (log.isDebugEnabled()) {
+                log.debug("以寻找到编号为【{}】的completableFuture，处理响应结果。", rpcResponse.getRequestId());
+            }
+        } else if(code == RespCode.SUCCESS_HEART_BEAT.getCode()){
+            completableFuture.complete(null);
+            if (log.isDebugEnabled()) {
+                log.debug("以寻找到编号为【{}】的completableFuture,处理心跳检测，处理响应结果。", rpcResponse.getRequestId());
+            }
         }
+
     }
 }

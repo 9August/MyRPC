@@ -29,13 +29,16 @@ public class ConsumerApplication {
 //        System.out.println("++------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         HelloRpc hellorpc = reference.get();
 
-//        while (true) {
-//            try {
-//                Thread.sleep(10000);
-//                System.out.println("++------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+        while (true) {
+            try {
+                Thread.sleep(30000);
+                System.out.println("++------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+//        String sayHi = hellorpc.sayHi("你好rpc");
+
         for (int i = 0; i < 10; i++) {
             String sayHi = hellorpc.sayHi("你好rpc");
             log.info("sayHi-->{}", sayHi);
@@ -47,7 +50,7 @@ public class ConsumerApplication {
 //                String sayHi = hellorpc.sayHi("你好rpc");
 //                log.info("sayHi-->{}", sayHi);
 //            }
-//        }
+        }
 
     }
 }

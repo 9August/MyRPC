@@ -17,7 +17,7 @@ public abstract class AbstractLoadBalancer implements LoadBalancer {
     // 一个服务会匹配一个selector
     private Map<String, Selector> cache = new ConcurrentHashMap<>(8);
 
-    protected abstract Selector getSelector(List<InetSocketAddress> serviceList);
+    protected abstract Selector getSelector(List<InetSocketAddress> addresses);
 
     @Override
     public InetSocketAddress selectServiceAddress(String serviceName, String group) {
@@ -42,5 +42,8 @@ public abstract class AbstractLoadBalancer implements LoadBalancer {
         return selector.getNext();
     }
 
-
+    @Override
+    public synchronized void reLoadBalance(String serviceName, List<InetSocketAddress> addresses) {
+        cache.put(serviceName,getSelector(addresses));
+    }
 }
