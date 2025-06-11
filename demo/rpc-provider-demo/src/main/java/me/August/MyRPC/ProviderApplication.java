@@ -27,6 +27,5 @@ public class ProviderApplication {
                 .scan("me.August.MyRPC")
                 // 启动服务
                 .start();
-
     }
 }

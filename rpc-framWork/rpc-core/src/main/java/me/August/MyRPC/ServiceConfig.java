@@ -1,6 +1,7 @@
 package me.August.MyRPC;
 
 public class ServiceConfig<T>{
+    private String group = "default";
     private Class<?> interfaceProvider;
     private Object ref;
     public ServiceConfig(Class<?> interfaceProvider) {
@@ -23,4 +24,11 @@ public class ServiceConfig<T>{
         return ref;
     }
 
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public String getGroup() {
+        return group;
+    }
 }

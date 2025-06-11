@@ -7,15 +7,14 @@ import java.lang.annotation.Target;
 
 /**
  * @Author 9August
- * @Date 2025/6/3 14:50
- * @description: 标注包扫描下可以识别的类
+ * @Date 2025/6/4 15:32
+ * @description: 重试次数
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RpcApi {
-    // 分组名称
-    String group() default "default";
+public @interface TryTimes {
 
+    int tryTimes() default 3;
 
-
+    int intervalTime() default 2000;
 }
